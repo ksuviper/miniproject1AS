@@ -37,43 +37,69 @@ def getClosing(ticker):
 
     return closingList
 
-def printGraphs(stocks):
-    # create empty directory to save charts
-    try:
-        Path("charts").mkdir()
-    except FileExistsError:
-        pass
+def printGraphs(stock):
+    # get closing prices for stock
+    closingPrices = np.array(getClosing(stock))
+    days = list(range(1, len(closingPrices) + 1))
 
-    # loop through stocks to get closing prices
-    for stock in stocks:
-        # get closing prices for stock
-        closingPrices = np.array(getClosing(stock))
-        days = list(range(1, len(closingPrices) + 1))
+    # get min and max for the y axis
+    prices = getClosing(stock)
+    prices.sort()
+    lowPrice = prices[0]
+    highPrice = prices[-1]
 
-        # get min and max for the y axis
-        prices = getClosing(stock)
-        prices.sort()
-        lowPrice = prices[0]
-        highPrice = prices[-1]
+    # plot stock closing prices
+    plt.plot(days, closingPrices)
 
-        # plot stock closing prices
-        plt.plot(days, closingPrices)
+    # set axis min and max values
+    plt.axis([1, 10, lowPrice - 2, highPrice + 2])
 
-        # set axis min and max values
-        plt.axis([1, 10, lowPrice - 2, highPrice + 2])
+    # set plot labels
+    plt.title("Stock Closing Prices - " + stock)
+    plt.xlabel("Days")
+    plt.ylabel("Closing Price")
 
-        # set plot labels
-        plt.title("Stock Closing Prices - " + stock)
-        plt.xlabel("Days")
-        plt.ylabel("Closing Price")
+    # save the graph
+    plt.savefig("charts/" + stock + ".png")
 
-        # save the graph
-        plt.savefig("charts/" + stock + ".png")
+    # show the graph
+    plt.show()
 
-        # show the graph
-        plt.show()
+def getStocks():
+    stocks = []
+
+    print("Please enter 5 stocks to graph:")
+
+    for i in range(1, 6):
+
+        # Get stocks from user
+        while True:
+            print("Enter stock ticker number " + str(i))
+            ticker = input("> ")
+            # check validity of enter stock and add to list
+            print(ticker)
+            try:
+                print("Checking Ticker...")
+                stock = yf.Ticker(ticker)
+                stock.info
+                stocks.append(ticker)
+                print("Valid Ticker.")
+                break
+            except:
+                print("That is not a valid stock. Please enter another.")
+
+    return stocks
 
 
+# start program
+# create empty directory to save charts
+try:
+    Path("charts").mkdir()
+except FileExistsError:
+    pass
 
-stocks = ["MSFT", "AAPL", "GME", "GOOG", "META"]
+for stock in getStocks():
+    getClosing(stock)
+    printGraphs(stock)
+
 
