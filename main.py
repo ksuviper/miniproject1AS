@@ -37,39 +37,43 @@ def getClosing(ticker):
 
     return closingList
 
+def printGraphs(stocks):
+    # create empty directory to save charts
+    try:
+        Path("charts").mkdir()
+    except FileExistsError:
+        pass
+
+    # loop through stocks to get closing prices
+    for stock in stocks:
+        # get closing prices for stock
+        closingPrices = np.array(getClosing(stock))
+        days = list(range(1, len(closingPrices) + 1))
+
+        # get min and max for the y axis
+        prices = getClosing(stock)
+        prices.sort()
+        lowPrice = prices[0]
+        highPrice = prices[-1]
+
+        # plot stock closing prices
+        plt.plot(days, closingPrices)
+
+        # set axis min and max values
+        plt.axis([1, 10, lowPrice - 2, highPrice + 2])
+
+        # set plot labels
+        plt.title("Stock Closing Prices - " + stock)
+        plt.xlabel("Days")
+        plt.ylabel("Closing Price")
+
+        # save the graph
+        plt.savefig("charts/" + stock + ".png")
+
+        # show the graph
+        plt.show()
+
+
+
 stocks = ["MSFT", "AAPL", "GME", "GOOG", "META"]
 
-# create empty directory to save charts
-try:
-    Path("charts").mkdir()
-except FileExistsError:
-    pass
-
-# loop through stocks to get closing prices
-for stock in stocks:
-    # get closing prices for stock
-    closingPrices = np.array(getClosing(stock))
-    days = list(range(1, len(closingPrices)+1))
-
-    # get min and max for the y axis
-    prices = getClosing(stock)
-    prices.sort()
-    lowPrice = prices[0]
-    highPrice = prices[-1]
-
-    # plot stock closing prices
-    plt.plot(days, closingPrices)
-
-    # set axis min and max values
-    plt.axis([1, 10, lowPrice-2, highPrice+2])
-
-    # set plot labels
-    plt.title("Stock Closing Prices - " + stock)
-    plt.xlabel("Days")
-    plt.ylabel("Closing Price")
-
-    #save the graph
-    plt.savefig("charts/" + stock + ".png")
-
-    # show the graph
-    plt.show()
