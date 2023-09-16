@@ -17,11 +17,11 @@ import pprint
 # (10/10 points) I will be checking out the master branch of your project. Please be sure to include a requirements.txt file which contains all the packages that need installed. You can create this fille with the output of pip freeze at the terminal prompt.
 # (20/20 points) There should be a README.md file in your project that explains what your project is, how to install the pip requirements, and how to execute the program. Please use the GitHub flavor of Markdown.
 
-# Apple is APPL
-# Microsoft is MSFT
-# Google is GOOG
-# GameStop is GME
-# Facebook is META
+# Apple = APPL
+# Microsoft = MSFT
+# Google = GOOG
+# GameStop = GME
+# Facebook = META
 
 def getClosing(ticker):
     stock = yf.Ticker(ticker)
@@ -36,8 +36,28 @@ def getClosing(ticker):
 
     return closingList
 
-
 stocks = ["MSFT", "AAPL", "GME", "GOOG", "META"]
 
-stocks = np.array(stocks)
+# loop through stocks to get closing prices
+for stock in stocks:
+    # get closing prices for stock
+    closingPrices = np.array(getClosing(stock))
+    days = list(range(1, len(closingPrices)+1))
 
+    # get min and max for the y axis
+    prices = getClosing(stock)
+    prices.sort()
+    lowPrice = prices[0]
+    highPrice = prices[-1]
+
+    # plot stock closing prices
+    plt.plot(days, closingPrices)
+
+    # set axis min and max values
+    plt.axis([1, 10, lowPrice-2, highPrice+2])
+
+    # set plot labels
+    plt.title("Stock Closing Prices - " + stock)
+    plt.xlabel("Days")
+    plt.ylabel("Closing Price")
+    plt.show()
