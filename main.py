@@ -3,6 +3,7 @@
 # Mini Project 1
 
 import yfinance as yf
+import numpy as np
 import pprint
 
 # (5/5 points) Initial comments with your name, class and project at the top of your .py file.
