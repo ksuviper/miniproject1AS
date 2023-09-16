@@ -21,3 +21,19 @@ import pprint
 # GameStop is GME
 # Facebook is META
 
+def getClosing(ticker):
+    stock = yf.Ticker(ticker)
+    # get historical market data
+    hist = stock.history(period="10d")
+
+    closingList = []
+
+    # loop through closing prices and add to list
+    for price in hist['Close']:
+        closingList.append(round(price, 2))
+
+    return closingList
+
+
+stocks = ["MSFT", "AAPL", "GME", "GOOG", "META"]
+
