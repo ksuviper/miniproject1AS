@@ -40,8 +40,10 @@ def getClosing(ticker):
 stocks = ["MSFT", "AAPL", "GME", "GOOG", "META"]
 
 # create empty directory to save charts
-Path("charts").mkdir()
-
+try:
+    Path("charts").mkdir()
+except FileExistsError:
+    pass
 
 # loop through stocks to get closing prices
 for stock in stocks:
