@@ -2,6 +2,7 @@
 # Adam Staggenborg
 # Mini Project 1
 
+import os
 import yfinance as yf
 import numpy as np
 import matplotlib.pyplot as plt
@@ -38,6 +39,9 @@ def getClosing(ticker):
 
 stocks = ["MSFT", "AAPL", "GME", "GOOG", "META"]
 
+# create empty directory to save charts
+os.mkdir("charts")
+
 # loop through stocks to get closing prices
 for stock in stocks:
     # get closing prices for stock
@@ -60,4 +64,9 @@ for stock in stocks:
     plt.title("Stock Closing Prices - " + stock)
     plt.xlabel("Days")
     plt.ylabel("Closing Price")
+
+    #save the graph
+    plt.savefig("charts/" + stock + ".png")
+
+    # show the graph
     plt.show()
