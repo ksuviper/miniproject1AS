@@ -1,6 +1,7 @@
 # miniproject1AS
 
 INF601 - Advanced Programming with Python
+
 Adam Staggenborg
 
 ## Description
@@ -13,3 +14,9 @@ Please run the following:
 pip install -r requirements.txt 
 ```
 
+## Usage
+
+Use the following command to run:
+```
+python main.py
+```
